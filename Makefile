@@ -1,6 +1,6 @@
 .PHONY: all clean
 
-all: clean
+all: Compiled/Primitives.pdf clean
 
 clean:
 	latexmk -quiet -C
