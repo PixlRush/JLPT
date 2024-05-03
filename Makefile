@@ -5,8 +5,14 @@ all: Compiled/Full.pdf clean
 clean:
 	@echo "\n--==Cleaning Up==--\n"
 	latexmk -quiet -C
+	rm version.tex
 
-Compiled/Full.pdf: main.tex preamble.tex title.tex
+version.tex: versioning.sh
+	@echo "\n--==Generating Version Tag==--"
+	@bash versioning.sh
+	@cat version.tex
+
+Compiled/Full.pdf: main.tex preamble.tex title.tex version.tex
 	@echo "\n--==Compiling $@==--\n"
-	latexmk -f -xelatex -interaction=nonstopmode -quiet -synctex=1 $<
+	latexmk -f -xelatex -interaction=nonstopmode -quiet --shell-escape -synctex=1 $<
 	mv main.pdf $@
