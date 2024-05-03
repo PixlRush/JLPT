@@ -1,6 +1,17 @@
-\documentclass{book}
-\usepackage[margin=1in]{geometry}
+\documentclass[twosided]{book}
 
-\usepackage{xeCJK}
+\usepackage[japanese]{babel}
+\usepackage{xeCJK,ruby}
 \setCJKmainfont{Toppan Bunkyu Mincho}
+\newCJKfontfamily\cjkbf{Toppan Bunkyu Midashi Mincho}
 
+\renewcommand{\rubysep}{0ex}
+% iroha footnotes
+\babelprovide[hiragana.iroha]{japanese}
+\renewcommand{\thefootnote}{[\localecounter{hiragana.iroha}{footnote}]}
+% kanji parts
+\babelprovide[formal]{japanese}
+\renewcommand{\thepart}{\localecounter{formal}{part}}
+
+\usepackage[margin=0.5in, innermargin=1in, paperwidth=5.5in, paperheight=8.5in, includehead]{geometry}
+\setlength{\parskip}{6pt}
