@@ -6,6 +6,7 @@ clean:
 	@echo "\n--==Cleaning Up==--\n"
 	latexmk -quiet -C
 	rm version.tex
+	rm -rfd svg-inkscape
 
 version.tex: versioning.sh
 	@echo "\n--==Generating Version Tag==--"
