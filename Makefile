@@ -1,4 +1,4 @@
-.PHONY: all voice-lines clean purge
+.PHONY: all anki voice-lines clean purge
 
 # All targets for main.texs to make Compiled/*.pdfs
 PDF-TARGETS := Compiled/Full.pdf $(shell find . -name "main.tex" | grep -v "\./main\.tex" | sed -E "s/\.?\/?([a-zA-Z0-9]*)(\/.*)*\/main.tex/Compiled\/\1.pdf/")
@@ -6,7 +6,7 @@ PDF-TARGETS := Compiled/Full.pdf $(shell find . -name "main.tex" | grep -v "\./m
 VOICE-TARGETS := $(shell find . -name Makefile | grep "voice-lines/Makefile")
 
 
-all: $(PDF-TARGETS) voice-lines clean
+all: $(PDF-TARGETS) anki voice-lines clean
 
 # Cleaning Up
 clean:
@@ -37,3 +37,7 @@ Compiled/%.pdf: %/main.tex preamble.tex title.tex %/**.tex
 voice-lines: $(VOICE-TARGETS)
 	@# Automatically finds file named Makefile
 	@for MFILE in $(VOICE-TARGETS); do echo "\n-=Making $$MFILE=-\n"; make -C $${MFILE%/*}; done
+
+anki: Anki/Makefile
+	@echo "\n-=Making ./Anki/=-\n"
+	@make -C Anki
