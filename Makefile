@@ -36,7 +36,7 @@ Compiled/%.pdf: %/main.tex preamble.tex title.tex %/**.tex
 # Voice Line Creation
 voice-lines: $(VOICE-TARGETS)
 	@# Automatically finds file named Makefile
-	@for MFILE in $(VOICE-TARGETS); do echo "\n-=Making $$MFILE=-\n"; make -C $${MFILE%/*}; done
+	@-for MFILE in $(VOICE-TARGETS); do echo "\n-=Making $$MFILE=-\n"; make -C $${MFILE%/*}; done
 
 anki: Anki/Makefile
 	@echo "\n-=Making ./Anki/=-\n"

@@ -14,7 +14,7 @@ def get_data_from_csv(filename: str) -> list[dict[str, str]]:
 def write_data_to_csv(data: list[dict[str, str]], filename: str, fields: [str, ...] =["front", "back"]):
     with open(filename, 'w') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=fields)
-        # writer.writeheader()
+        writer.writeheader()
         for datum in data:
             writer.writerow(datum)
 
