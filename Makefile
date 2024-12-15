@@ -1,14 +1,25 @@
-.PHONY: all clean
+.PHONY: all voice-lines clean purge
 
 # All targets for main.texs to make Compiled/*.pdfs
 PDF-TARGETS := Compiled/Full.pdf $(shell find . -name "main.tex" | grep -v "\./main\.tex" | sed -E "s/\.?\/?([a-zA-Z0-9]*)(\/.*)*\/main.tex/Compiled\/\1.pdf/")
+# Find all targets for a voice-lines makefile
+VOICE-TARGETS := $(shell find . -name Makefile | grep "voice-lines/Makefile")
 
-all: $(PDF-TARGETS) clean
+
+all: $(PDF-TARGETS) voice-lines clean
 
 # Cleaning Up
 clean:
 	@echo "\n--==Cleaning Up==--\n"
 	latexmk -quiet -C
+
+# Purge all
+purge:
+	@echo "\n--==Purging==--\n"
+	latexmk -quiet -C
+	rm ./Compiled/*.pdf
+	@# Call down to purge voice-lines
+	@for MFILE in $(VOICE-TARGETS); do echo "\n-=Purging $$MFILE=-\n"; make -C $${MFILE%/*} purge; done
 
 # Compiled PDF creation
 Compiled/Full.pdf: main.tex comp.tex preamble.tex title.tex
@@ -21,3 +32,8 @@ Compiled/%.pdf: %/main.tex preamble.tex title.tex %/**.tex
 	@echo "--==Compiling $@==--"
 	latexmk -f -xelatex -interaction=nonstopmode -quiet -synctex=1 $<
 	mv main.pdf $@
+
+# Voice Line Creation
+voice-lines: $(VOICE-TARGETS)
+	@# Automatically finds file named Makefile
+	@for MFILE in $(VOICE-TARGETS); do echo "\n-=Making $$MFILE=-\n"; make -C $${MFILE%/*}; done
