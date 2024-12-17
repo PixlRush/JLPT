@@ -22,14 +22,14 @@ purge:
 	@for MFILE in $(VOICE-TARGETS); do echo "\n-=Purging $$MFILE=-\n"; make -C $${MFILE%/*} purge; done
 
 # Compiled PDF creation
-Compiled/Full.pdf: main.tex comp.tex preamble.tex title.tex
+Compiled/Full.pdf: main.tex comp.tex preamble.tex title.tex $(shell find . -name "*.tex" | grep "N./.*\.tex")
 	@echo "\n--==Compiling $@==--\n"
 	latexmk -f -xelatex -interaction=nonstopmode -quiet --shell-escape -synctex=1 $<
 	mv main.pdf $@
 
 # Generalized PDF Creation
 Compiled/%.pdf: %/main.tex preamble.tex title.tex %/**.tex
-	@echo "--==Compiling $@==--"
+	@echo "\n--==Compiling $@==--\n"
 	latexmk -f -xelatex -interaction=nonstopmode -quiet -synctex=1 $<
 	mv main.pdf $@
 
