@@ -28,7 +28,7 @@ Compiled/Full.pdf: main.tex comp.tex preamble.tex title.tex $(shell find . -name
 	mv main.pdf $@
 
 # Generalized PDF Creation
-Compiled/%.pdf: %/main.tex preamble.tex title.tex %/**.tex
+Compiled/%.pdf: %/main.tex preamble.tex title.tex $(shell find ./$(%) -name "*.tex")
 	@echo "\n--==Compiling $@==--\n"
 	latexmk -f -xelatex -interaction=nonstopmode -quiet -synctex=1 $<
 	mv main.pdf $@
